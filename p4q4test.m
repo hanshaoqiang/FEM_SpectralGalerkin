@@ -1,4 +1,4 @@
-function e = p4q4test
+% function e = p4q4test
 %P4Q4TEST Test the accuracy of finite element method for project 4
 % using an analytical solution.
 %
@@ -7,7 +7,7 @@ function e = p4q4test
 % It requires the following MATLAB function signature:
 % w = q4(rho0, p0, a, u0, NxE, m, E, h, nu, endT, nstep, paero, nmode, wini, wtini)
 
-nstep   = 10; % 100
+nstep   = 100; % 100
 N       = 120;
 rho0    = 1;
 p0      = 1/1.4;
@@ -18,7 +18,7 @@ m       = 100;
 E       = 72.8*10^6;
 h       = 0.002;
 nu      = 0.3; % by angxiu
-endT    = 0.1; % 1
+endT    = 1; % 1
 nmode   = 20; % 20
 D       = (E*h^3)/(12*(1-nu^2));
 
@@ -43,3 +43,9 @@ w_analytical    = w;
 
 e_0     = w_analytical - w_numerical;
 e       = norm(e_0,'fro')/norm(w_analytical,'fro');
+
+%%
+figure()
+istep = 100;
+plot(x(:,end),w_numerical(:,istep),'rx-',...
+    x(:,end),w_analytical(:,istep),'ko-')

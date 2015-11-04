@@ -4,7 +4,7 @@ endT = 30;
 nstep = 301;
 
 nmode = 5;
-N = 21;
+N = 60;
 
 %% test input
 rho0 = 1; p0 = 1/1.4; a = 2;
@@ -15,8 +15,8 @@ E = 72.8E6;
 h = 0.002;
 nu = 0.3;
 
-if (N/3+1) < nmode
-    error('too many modes for the mesh resolution.')
+if (N/3+1) < 2*nmode
+    error('too many modes for the mesh resolution. aliasing might happen')
 end
 wini = zeros(N/3+1,1);
 wtini = zeros(N/3+1,1);
@@ -26,7 +26,7 @@ paero = repmat( (t>=0 & t<=10)', N+1,1) ...
     - repmat( (t>10 & t<=30)', N+1,1);
 
 dx = 3*a/N;
-CFL = u0*endT / (nstep * dx)
+CFL = u0*endT / ((nstep-1)*dx)
 %%
 [w,A,B] = q4(rho0, p0, a, u0, NEx, m, E, h, nu,...
     endT, nstep, paero, nmode, wini, wtini);
