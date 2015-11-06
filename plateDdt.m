@@ -14,7 +14,9 @@ h = param.h;
 nu = param.nu;
 nmode = param.nmode;
 paero = param.paero;
-tauspan = param.tauspan;
+% tauspan = param.tauspan;
+tau_vec_global = param.tau_vec_global;
+step2i = param.step2i;
 
 %% nondimensionalize
 D = E*h^3 / (12*(1-nu^2));
@@ -29,7 +31,9 @@ Ar_sum = sum(A.^2 .* modeId.^2 * pi^2 / 2); % precompute
 
 dAdt = B;
 
-paero_tau = interp1(tauspan',paero',tau,'linear')';
+% paero_tau = interp1(tauspan',paero',tau,'linear')';
+tau_global = tau_vec_global(step2i-1) + tau;
+paero_tau = spline(tau_vec_global',paero,tau_global);
 intPaero = integratePaero(paero_tau,a,nmode);
 dBdt = ( -(modeId*pi).^4 - 6*(1-nu^2)*Ar_sum*(modeId*pi).^2 ...
     - Rx*(modeId*pi).^2 ) .* A - 2*a^3/(D*h)*intPaero;

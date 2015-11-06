@@ -19,8 +19,8 @@ dofs = 2*nmode; % global degrees of freedom
 % % convert from wini & wtini to Aini and Bini by evaluating inner product of
 % % wini or wtini and basis functions.
 dx = 3*a/N; % element size
-CFL = u0*endT / ((nstep-1)*dx)
-Phi = basis(nmode,x,a); % basis functions evaluated at x
+% CFL = u0*endT / ((nstep-1)*dx)
+% Phi = basis(nmode,x,a); % basis functions evaluated at x
 
 % Phi_avg = 0.5*( Phi(1:end-1,:) + Phi(2:end,:) );
 % 
@@ -66,10 +66,14 @@ B = zeros(nmode,nstep); % initialize
 w(:,1) = wini; % initial time step
 
 dtau = dt * dtaudt; % Note: this is the time step size for non-dimensional governing equations
+tau_vec_global = [0:dtau:(nstep-1)*dtau]';
 tauspan = [0 dtau];
 param.tauspan = tauspan;
 for i = 2:nstep
-    param.paero = paero(:,[i-1,i]);    
+    param.tau_vec_global = tau_vec_global;
+    param.step2i = i;
+    param.paero = paero;
+%     param.paero = paero(:,[i-1,i]);    
     [~,U] = ode45(@plateDdt,tauspan,U0,[],param);
     U0 = U(end,:)'; % retrieve solution vector U at t+dt and set it to be initial solution of the next time step
     A(:,i) = U0([1:2:end-1]); % retrieve solution A at t+dt

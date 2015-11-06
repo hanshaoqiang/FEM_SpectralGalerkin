@@ -20,7 +20,7 @@ x = linspace(0,a,N/3+1)'; % coordinates of nodes on the plate
 %     error('dx is not uniform.')
 % end
 
-paero_plate = paero([N/3+1:2*N/3+1]); % pick out \Delta p_aero over the plate
+% paero_plate = paero([N/3+1:2*N/3+1]); % pick out \Delta p_aero over the plate
 % paero_plate_avg = 0.5.*(paero_plate(1:end-1) + paero_plate(2:end)); % taking average paero each cell
 % x_avg = 0.5 .* (x(1:end-1) + x(2:end)); % coordinates of cell center
 % Phi_avg = basis(nmode,x_avg,a); % evaluate basis functions at x_avg
